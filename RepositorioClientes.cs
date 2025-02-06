@@ -4,11 +4,13 @@ namespace CadastroClienteRepos
 {
 	public class RepositorioClientes
 	{
-		static Clientes clientes = new Clientes();
 		public List<Clientes> listaClientes = new List<Clientes>();
+
+
 		public void CadastrarNome()
 		{
-			
+			Clientes clientes = new Clientes();
+
 			Random random = new Random();
 			clientes.Id = random.Next(10, 1000);
 			clientes.Nome = SolicitarNome();
@@ -18,6 +20,7 @@ namespace CadastroClienteRepos
 
 			listaClientes.Add(clientes);
 		}
+
 
 		public string ImprimirClientes()
 		{
@@ -33,25 +36,26 @@ namespace CadastroClienteRepos
 
 			}
 			return clientesBuilder.ToString();
-
 		}
 
 
-
-		public void ExibirClientes()
+		public void ExcluirCliente() 
 		{
-            if (listaClientes != null)
+			Console.WriteLine("Informe o ID do cliente:");
+            if (!int.TryParse(Console.ReadLine(), out int idPesquisa))
             {
-                foreach (var clientes in listaClientes)
-                {
-					//ImprimirClientes(clientes);
-                }
+                Console.WriteLine("ID inválido. Por favor informe um ID válido."); return;
             }
-            else
+
+            if (!listaClientes.Any(c => c.Id == idPesquisa))
             {
-				Console.WriteLine("Lista de clientes vazia.");
+				Console.WriteLine("Cliente não encontrado"); return;
             }
+			listaClientes.RemoveAll(c => c.Id == idPesquisa);
+			Console.WriteLine("Cliente removido com sucesso.");
+
         }
+
 
 
 
@@ -67,7 +71,6 @@ namespace CadastroClienteRepos
 			Console.WriteLine("Informe data nasc:");
 			return DateOnly.Parse(Console.ReadLine());
 		}
-
 		public decimal SolicitarDesconto()
 		{
 			Console.WriteLine("Informe desconto:");
